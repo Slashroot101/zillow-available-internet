@@ -1,0 +1,36 @@
+{
+  "name": "Zillow Available Internet At Address",
+  "version": "1.0.0",
+  "description": "shows what internet is available at a given address per the FCC",
+  "manifest_version": 3,
+  "author": "Samuel Curry",
+  "action":{
+      "default_popup": "index.html",
+      "default_title": "Zillow Internet Fetcher"
+  },
+  "permissions": [
+    "declarativeNetRequest",
+    "declarativeNetRequestFeedback",
+    "activeTab",
+    "**://*.mapbox.com/*"
+  ],
+  "host_permissions": [
+    "**://*.mapbox.com/*"
+  ],
+  "declarative_net_request" : {
+    "rule_resources" : [{
+      "id": "ruleset_1",
+      "enabled": true,
+      "path": "rule1.json"
+    }]
+  },
+  "background": {
+    "service_worker": "script.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.zillow.com/*"],
+      "js": ["script.js"]
+    }
+  ]
+}
