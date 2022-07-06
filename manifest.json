@@ -11,19 +11,8 @@
   "permissions": [
     "declarativeNetRequest",
     "declarativeNetRequestFeedback",
-    "activeTab",
-    "**://*.mapbox.com/*"
+    "activeTab"
   ],
-  "host_permissions": [
-    "**://*.mapbox.com/*"
-  ],
-  "declarative_net_request" : {
-    "rule_resources" : [{
-      "id": "ruleset_1",
-      "enabled": true,
-      "path": "rule1.json"
-    }]
-  },
   "background": {
     "service_worker": "script.js"
   },

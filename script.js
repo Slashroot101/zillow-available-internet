@@ -1,4 +1,5 @@
 setInterval(async () => {
+  if(!this.document) return;
   const internetIdExists = document.getElementById('internetId');
   if(internetIdExists){
     return;
