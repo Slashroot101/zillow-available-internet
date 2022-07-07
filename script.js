@@ -32,15 +32,27 @@ setInterval(async () => {
     const code = await blockCodeData.json();
     const internet = await fetch(`https://opendata.fcc.gov/resource/hicn-aujz.json?blockcode=${code.Block.FIPS}&consumer=1`);
     const internetProviders = await internet.json();
-
     const summaryContainer = document.getElementsByClassName('summary-container');
+    const providerMap = new Map();
     let text = '';
     for(const provider of internetProviders){
-      text += `${provider.providername} (${techCodeMapper(provider.techcode)}): ${provider.maxaddown}/${provider.maxadup} <br>`
+      if(providerMap.has(`${provider.providername}|${techCodeMapper(provider.techcode)}`)){
+        const mappedProvider = providerMap.get(`${provider.providername}|${techCodeMapper(provider.techcode)}`);
+        if(mappedProvider.maxaddown > provider.maxaddown || mappedProvider.maxaddown === provider.maxaddown && mappedProvider.maxadup > provider.maxadup){
+          providerMap.set(`${provider.providername}|${techCodeMapper(provider.techcode)}`, provider);
+        }
+      } else {
+        providerMap.set(`${provider.providername}|${techCodeMapper(provider.techcode)}`, provider); continue;
+      }
+    }
+    console.log(providerMap)
+    for(let [key, value] of providerMap){
+      text += `${value.providername} (${techCodeMapper(value.techcode)}): ${value.maxaddown}/${value.maxadup} <br>`
     }
     const textField = document.createElement('div');
     textField.innerHTML = text;
-    textField.classList = 'hdp__sc-1xtwlux-2 eeCJL';
+    textField.classList = 'Text-c11n-8-65-2__sc-aiai24-0 sc-hiwPVj kpJbvM gYzxJA';
+    textField.style = 'text-align:center;';
     textField.id = 'internetId';
     summaryContainer[0].appendChild(textField);
 
